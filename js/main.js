@@ -24,6 +24,7 @@ $(window).scroll(function() {
 	console.log( $testElem.dataset.view );*/
 
 	windowTop = $(window).scrollTop();
+	console.log(windowTop);
     
     topPos = Math.round( windowTop / $(window).height() * 90 ); // get percentage of top position vs current window height
 
