@@ -1,0 +1,22 @@
+body {
+	margin:0;
+	padding:0;
+	overflow-x:hidden;
+}
+body > div {
+	position:absolute;
+}
+body div:nth-child(1) {
+	background:red;
+}
+body div:nth-child(2) {
+	background:blue;
+}
+body div:nth-child(3) {
+	background:green;
+}
+body div:nth-child(4) {
+	background:yellow;
+}
+.current {
+}

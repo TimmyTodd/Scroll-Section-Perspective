@@ -1,0 +1,8 @@
+http://jsperf.com/dataset-vs-jquery-data
+
+https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/Using_data_attributes
+
+http://desandro.github.io/3dtransforms/docs/card-flip.html
+
+animate to next section - http://jsfiddle.net/gautamz07/9Ed3V/
+
