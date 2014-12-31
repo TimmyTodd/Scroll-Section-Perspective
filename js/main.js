@@ -50,4 +50,6 @@ $(window).scroll(function() {
     	opac = 1;
     }
 
+    $( ".content" ).css({ "height" : $(window).height(), "width" : $(window).width() });
+
 });
