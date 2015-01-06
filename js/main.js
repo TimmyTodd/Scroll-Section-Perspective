@@ -19,7 +19,6 @@ function init() {
 
 function AnimateRotate(angle) {
 
-    // caching the object for performance reasons
     var $elem = $( ".current .inner" );
 
     $({deg: dir}).animate({deg: angle}, {
@@ -46,6 +45,8 @@ $( window )
     })
 
 function goingDown() {
+    $("body").addClass("animating")
+
     dir = 0
     AnimateRotate(90)
 
@@ -54,7 +55,7 @@ function goingDown() {
     $( ".content:nth-child(2)" ).animate({ 
         "top": "10%"
     }, animTime, function() {
-        // after
+        $("body").removeClass("animating")
     })
 
     $( "button" ).html("Go Up");
@@ -62,6 +63,8 @@ function goingDown() {
     stopScroll = 1
 }
 function goingUp() {
+    $("body").addClass("animating")
+
     dir = 90
     AnimateRotate(0)
 
@@ -70,7 +73,7 @@ function goingUp() {
     $( ".content:nth-child(2)" ).animate({ 
         "top": $(window).height()
     }, animTime, function() {
-        // after
+        $("body").removeClass("animating")
     })
 
     $( "button" ).html("Go Down");
@@ -93,11 +96,9 @@ var loghandle = function(event, delta) {
 
     if (delta > 0 && stopScroll == 1) { // scrolling up
         goingUp()
-        console.log("up")
     }
     else if (delta < 0 && stopScroll == 0 ) { // scrolling down
         goingDown()
-        console.log("down")
     } else {}
 };
 
