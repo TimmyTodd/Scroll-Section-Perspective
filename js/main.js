@@ -2,7 +2,9 @@ var topPos = $( ".current" ).scrollTop(),
 rotate = topPos + "deg",
 opac = 0,
 lastScrollTop = 0,
-stopScroll = 0;
+stopScroll = 0,
+dir = 0,
+animTime = 400;
 
 function init() {
 	$( "body,.content" ).css({ "height" : $(window).height(), "width" : $(window).width() });
@@ -22,8 +24,8 @@ function AnimateRotate(angle) {
 
     // we use a pseudo object for the animation
     // (starts from `0` to `angle`), you can name it as you want
-    $({deg: 0}).animate({deg: angle}, {
-        duration: 400,
+    $({deg: dir}).animate({deg: angle}, {
+        duration: animTime,
         step: function(now) {
             // in the step-callback (that is fired each step of the animation),
             // you can use the `now` paramter which contains the current
@@ -57,41 +59,36 @@ $("button").click(function() {
     $( ".current" ).css( "margin-bottom", "-" + windowTop / 2 + "px");*/
 
     if ( stopScroll == 0 ) {
-        
-    	/*rotate = "rotateX( -" + topPos + "deg)";
-    	$( ".current .inner" ).css({"-moz-transform" : rotate, "-webkit-transform" : rotate});
 
-    	opac = opacTopPos;
-    	$( ".current .grad" ).css({"opacity" : opac});*/
-
-
-        /*$( ".content:nth-child(2)" ).animate({ 
-            "top": "0px"
-        }, 800, function() {
-            // after
-        })*/
-
+        dir = 0
         AnimateRotate(90)
-        $( ".current .grad" ).fadeIn(400)
+
+        $( ".current .grad" ).fadeIn(animTime)
 
         $( ".content:nth-child(2)" ).animate({ 
             "top": "10%"
-        }, 400, function() {
+        }, animTime, function() {
             // after
         })
+
+        $( this ).html("Go Up");
 
         stopScroll = 1
 
     } else if ( stopScroll == 1 ) {
 
+        dir = 90
         AnimateRotate(0)
-        $( ".current .grad" ).fadeOut(400)
+
+        $( ".current .grad" ).fadeOut(animTime)
 
         $( ".content:nth-child(2)" ).animate({ 
             "top": $(window).height()
-        }, 400, function() {
+        }, animTime, function() {
             // after
         })
+
+        $( this ).html("Go Down");
 
         stopScroll = 0
 
