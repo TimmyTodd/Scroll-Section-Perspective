@@ -22,14 +22,9 @@ function AnimateRotate(angle) {
     // caching the object for performance reasons
     var $elem = $( ".current .inner" );
 
-    // we use a pseudo object for the animation
-    // (starts from `0` to `angle`), you can name it as you want
     $({deg: dir}).animate({deg: angle}, {
         duration: animTime,
         step: function(now) {
-            // in the step-callback (that is fired each step of the animation),
-            // you can use the `now` paramter which contains the current
-            // animation-position (`0` up to `angle`)
             $elem.css({
                 transform: 'rotateX(-' + now + 'deg)'
             });
@@ -37,64 +32,76 @@ function AnimateRotate(angle) {
     });
 }
 
-$( document ).ready(function() {
-	init()
-})
+$( document )
+    .ready(function() {
+    	init()
+    })
 
-$( window ).resize(function() {
-	init()
-}).load(function() {
-	init()
-})
+$( window )
+    .resize(function() {
+    	init()
+    })
+    .load(function() {
+    	init()
+    })
 
-$("button").click(function() {
+function goingDown() {
+    dir = 0
+    AnimateRotate(90)
 
-	/*var $testElem = document.querySelector( "div:nth-child(3)" );
-	console.log( $testElem.dataset.view );*/
+    $( ".current .grad" ).fadeIn(animTime)
 
-    /*var scrol_pos = $(window).scrollTop();
-    console.log( scrol_pos );*/
+    $( ".content:nth-child(2)" ).animate({ 
+        "top": "10%"
+    }, animTime, function() {
+        // after
+    })
 
-    /*$( ".current" ).css( "margin-top", windowTop / 2 + "px");
-    $( ".current" ).css( "margin-bottom", "-" + windowTop / 2 + "px");*/
+    $( "button" ).html("Go Up");
 
-    if ( stopScroll == 0 ) {
+    stopScroll = 1
+}
+function goingUp() {
+    dir = 90
+    AnimateRotate(0)
 
-        dir = 0
-        AnimateRotate(90)
+    $( ".current .grad" ).fadeOut(animTime)
 
-        $( ".current .grad" ).fadeIn(animTime)
+    $( ".content:nth-child(2)" ).animate({ 
+        "top": $(window).height()
+    }, animTime, function() {
+        // after
+    })
 
-        $( ".content:nth-child(2)" ).animate({ 
-            "top": "10%"
-        }, animTime, function() {
-            // after
-        })
+    $( "button" ).html("Go Down");
 
-        $( this ).html("Go Up");
+    stopScroll = 0
+}
 
-        stopScroll = 1
+$("button")
+    .click(function() {
 
-    } else if ( stopScroll == 1 ) {
+        if ( stopScroll == 0 )
+            goingDown()
+        else if ( stopScroll == 1 )
+            goingUp()
+    });
 
-        dir = 90
-        AnimateRotate(0)
 
-        $( ".current .grad" ).fadeOut(animTime)
+// detect mouswheel direction
+var loghandle = function(event, delta) {
 
-        $( ".content:nth-child(2)" ).animate({ 
-            "top": $(window).height()
-        }, animTime, function() {
-            // after
-        })
-
-        $( this ).html("Go Down");
-
-        stopScroll = 0
-
-    } else {
+    if (delta > 0 && stopScroll == 1) { // scrolling up
+        goingUp()
+        console.log("up")
     }
+    else if (delta < 0 && stopScroll == 0 ) { // scrolling down
+        goingDown()
+        console.log("down")
+    } else {}
+};
 
-    $( ".content" ).css({ "height" : $(window).height(), "width" : $(window).width() });
-
-});
+$(document)
+    .mousewheel(function(event, delta) {
+        loghandle(event, delta);
+    });
